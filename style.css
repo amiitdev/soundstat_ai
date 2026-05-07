@@ -76,6 +76,7 @@ body {
     justify-content: space-between;
     z-index: 100;
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    overflow: visible;
 }
 
 .logo-area {
@@ -104,8 +105,8 @@ body {
     align-items: center;
     gap: 8px;
     flex: 1;
-    max-width: 200px;
     margin: 0 12px;
+    overflow: visible;
 }
 
 #song-search {
@@ -113,7 +114,51 @@ body {
     border: none;
     color: white;
     font-size: 14px;
-    width: 100%;
+    flex: 1;
+    min-width: 0;
+    outline: none;
+}
+
+#voice-search-btn {
+    background: none;
+    border: none;
+    color: #b3b3b3;
+    padding: 4px 8px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#voice-search-btn:hover {
+    color: white;
+}
+
+#voice-search-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+#voice-search-btn.listening {
+    color: var(--sp-green) !important;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+#song-search {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 14px;
+    flex: 1;
+    min-width: 0;
     outline: none;
 }
 
@@ -1180,13 +1225,17 @@ body {
     color: white;
     font-size: 20px;
     padding: 8px;
-    display: none;
     cursor: pointer;
+    display: none;
 }
 
 @media (max-width: 768px) {
     .menu-trigger {
         display: block !important;
+    }
+    
+    .search-wrapper {
+        flex: 1;
     }
 }
 
@@ -1336,4 +1385,69 @@ body {
 
 .toast-close-btn:hover {
     color: white;
+}
+
+/* Voice Search */
+#voice-search-btn {
+    background: none;
+    border: none;
+    color: #b3b3b3;
+    padding: 4px 8px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#voice-search-btn i {
+    color: inherit;
+}
+
+#voice-search-btn:hover {
+    color: white;
+}
+
+#voice-search-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+#voice-search-btn.listening {
+    color: var(--sp-green) !important;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+#voice-search-btn i {
+    color: inherit;
+}
+
+#voice-search-btn:hover {
+    color: white;
+}
+
+#voice-search-btn.listening {
+    color: var(--sp-green) !important;
+    animation: pulse 1.5s infinite;
+}
+
+#voice-search-btn:hover {
+    color: white;
+}
+
+#voice-search-btn.listening {
+    color: var(--sp-green) !important;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
 }

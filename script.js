@@ -814,6 +814,59 @@ function setupEventListeners() {
     searchTimeout = setTimeout(() => performSearch(e.target.value), 600);
   });
 
+  // Voice Search
+  const voiceBtn = document.getElementById('voice-search-btn');
+  if (voiceBtn && ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window)) {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const recognition = new SpeechRecognition();
+    recognition.continuous = false;
+    recognition.interimResults = false;
+    recognition.lang = 'en-US';
+
+    voiceBtn.addEventListener('click', () => {
+      if (recognition.isRunning) {
+        recognition.stop();
+        voiceBtn.classList.remove('listening');
+        voiceBtn.style.color = '#b3b3b3';
+        return;
+      }
+
+      recognition.start();
+      voiceBtn.classList.add('listening');
+      voiceBtn.style.color = '#1DB954';
+      searchInput.placeholder = 'Listening...';
+
+      recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        searchInput.value = transcript;
+        voiceBtn.classList.remove('listening');
+        voiceBtn.style.color = '#b3b3b3';
+        searchInput.placeholder = 'Search music...';
+        performSearch(transcript);
+      };
+
+      recognition.onerror = () => {
+        voiceBtn.classList.remove('listening');
+        voiceBtn.style.color = '#b3b3b3';
+        searchInput.placeholder = 'Search music...';
+      };
+
+      recognition.onend = () => {
+        voiceBtn.classList.remove('listening');
+        voiceBtn.style.color = '#b3b3b3';
+        searchInput.placeholder = 'Search music...';
+      };
+    });
+  } else if (voiceBtn) {
+    // Voice search not supported - show tooltip but keep visible
+    voiceBtn.style.opacity = '0.6';
+    voiceBtn.style.cursor = 'not-allowed';
+    voiceBtn.title = 'Voice search not supported in this browser';
+    voiceBtn.addEventListener('click', () => {
+      alert('Voice search is not supported in your browser. Try Chrome or Edge.');
+    });
+  }
+
   const switchView = (view) => {
     currentView = view;
     document

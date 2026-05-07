@@ -1,336 +1,654 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+    />
     <title>SoundStat - Advanced Music Analysis</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
     <script src="https://js.puter.com/v2/"></script>
-</head>
-<body>
-<div class="app-shell">
-    <div class="top-bar">
+  </head>
+  <body>
+    <div class="app-shell">
+      <div class="top-bar">
         <div class="logo-area">
-            <i class="fab fa-spotify"></i>
-            <span>SoundStat</span>
+          <i class="fab fa-spotify"></i>
+          <span>SoundStat</span>
         </div>
         <div class="search-wrapper">
             <i class="fas fa-search"></i>
             <input type="text" id="song-search" placeholder="Search music...">
-        </div>
-        <button class="menu-trigger" id="mood-menu-trigger">
-            <i class="fas fa-bars"></i>
-        </button>
-    </div>
-
-    <!-- Mood Genre Sidebar (Hamburger Menu) -->
-    <div class="mood-sidebar" id="mood-sidebar">
-        <div class="mood-sidebar-header">
-            <h3>Genres & Moods</h3>
-            <button id="close-mood-sidebar" style="background:none; border:none; color:white; font-size:20px;">
-                <i class="fas fa-times"></i>
+            <button id="voice-search-btn" title="Search with voice" style="color: inherit;">
+                <i class="fas fa-microphone"></i>
             </button>
         </div>
+        <button class="menu-trigger" id="mood-menu-trigger">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+
+      <!-- Mood Genre Sidebar (Hamburger Menu) -->
+      <div class="mood-sidebar" id="mood-sidebar">
+        <div class="mood-sidebar-header">
+          <h3>Genres & Moods</h3>
+          <button
+            id="close-mood-sidebar"
+            style="
+              background: none;
+              border: none;
+              color: white;
+              font-size: 20px;
+            "
+          >
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
         <div class="mood-sidebar-content">
-            <button class="mood-chip-sidebar active" data-mood="Top Global Hits">🏠 All</button>
-            <button class="mood-chip-sidebar" data-mood="Rock Classics">🎸 Rock</button>
-            <button class="mood-chip-sidebar" data-mood="Pop Chartbusters">🍭 Pop</button>
-            <button class="mood-chip-sidebar" data-mood="Sad Bollywood Melodies">😢 Sad</button>
-            <button class="mood-chip-sidebar" data-mood="Emotional Heart Touching">🎭 Emotional</button>
-            <button class="mood-chip-sidebar" data-mood="Best Romantic Songs">❤️ Romantic</button>
-            <button class="mood-chip-sidebar" data-mood="Chill Lofi Beats">😌 Chill</button>
-            <button class="mood-chip-sidebar" data-mood="Party Dance Hits">🎉 Party</button>
-            <button class="mood-chip-sidebar" data-mood="Workout Motivation">💪 Workout</button>
-            <button class="mood-chip-sidebar" data-mood="Indie Alternative">🎵 Indie</button>
-            <button class="mood-chip-sidebar" data-mood="Hip Hop Rap">🎤 Hip Hop</button>
-            <button class="mood-chip-sidebar" data-mood="Classical Instrumental">🎻 Classical</button>
+          <button class="mood-chip-sidebar active" data-mood="Top Global Hits">
+            🏠 All
+          </button>
+          <button class="mood-chip-sidebar" data-mood="Rock Classics">
+            🎸 Rock
+          </button>
+          <button class="mood-chip-sidebar" data-mood="Pop Chartbusters">
+            🍭 Pop
+          </button>
+          <button class="mood-chip-sidebar" data-mood="Sad Bollywood Melodies">
+            😢 Sad
+          </button>
+          <button
+            class="mood-chip-sidebar"
+            data-mood="Emotional Heart Touching"
+          >
+            🎭 Emotional
+          </button>
+          <button class="mood-chip-sidebar" data-mood="Best Romantic Songs">
+            ❤️ Romantic
+          </button>
+          <button class="mood-chip-sidebar" data-mood="Chill Lofi Beats">
+            😌 Chill
+          </button>
+          <button class="mood-chip-sidebar" data-mood="Party Dance Hits">
+            🎉 Party
+          </button>
+          <button class="mood-chip-sidebar" data-mood="Workout Motivation">
+            💪 Workout
+          </button>
+          <button class="mood-chip-sidebar" data-mood="Indie Alternative">
+            🎵 Indie
+          </button>
+          <button class="mood-chip-sidebar" data-mood="Hip Hop Rap">
+            🎤 Hip Hop
+          </button>
+          <button class="mood-chip-sidebar" data-mood="Classical Instrumental">
+            🎻 Classical
+          </button>
         </div>
-    </div>
-    <div class="mood-sidebar-overlay" id="mood-sidebar-overlay"></div>
+      </div>
+      <div class="mood-sidebar-overlay" id="mood-sidebar-overlay"></div>
 
-    <div class="main-scroll" id="main-scroll-area">
+      <div class="main-scroll" id="main-scroll-area">
         <div class="hero-mobile" id="hero-section">
-            <span class="artist-badge"><i class="fas fa-bolt"></i> AI Powered Analysis</span>
-            <h1 id="hero-title">Discover</h1>
-            <div id="personalized-greeting" style="margin-top: 10px; font-size: 14px; color: #ccc;"></div>
-            <div class="track-stats">Explore track characteristics & stats</div>
+          <span class="artist-badge"
+            ><i class="fas fa-bolt"></i> AI Powered Analysis</span
+          >
+          <h1 id="hero-title">Discover</h1>
+          <div
+            id="personalized-greeting"
+            style="margin-top: 10px; font-size: 14px; color: #ccc"
+          ></div>
+          <div class="track-stats">Explore track characteristics & stats</div>
         </div>
 
-        <div class="hero-mobile" id="favs-section" style="display: none;">
-            <span class="artist-badge"><i class="fas fa-heart"></i> Your Collection</span>
-            <h1>Liked Songs</h1>
-            <div class="track-stats"><span id="fav-count-header">0</span> tracks saved</div>
+        <div class="hero-mobile" id="favs-section" style="display: none">
+          <span class="artist-badge"
+            ><i class="fas fa-heart"></i> Your Collection</span
+          >
+          <h1>Liked Songs</h1>
+          <div class="track-stats">
+            <span id="fav-count-header">0</span> tracks saved
+          </div>
         </div>
 
         <div class="action-row">
-            <button class="master-play-btn" id="floating-play"><i class="fas fa-play"></i></button>
-            <div class="fx-pill" id="fx-trigger-mobile"><i class="fas fa-sliders-h"></i> FX</div>
-            <div class="fx-pill" id="shuffle-mobile"><i class="fas fa-random"></i></div>
+          <button class="master-play-btn" id="floating-play">
+            <i class="fas fa-play"></i>
+          </button>
+          <div class="fx-pill" id="fx-trigger-mobile">
+            <i class="fas fa-sliders-h"></i> FX
+          </div>
+          <div class="fx-pill" id="shuffle-mobile">
+            <i class="fas fa-random"></i>
+          </div>
         </div>
 
         <div class="eq-container">
-            <canvas id="real-eq" width="400" height="60"></canvas>
+          <canvas id="real-eq" width="400" height="60"></canvas>
         </div>
 
         <div class="list-section">
-            <div class="section-title">
-                <span>🎵 All Songs</span>
-            </div>
-            <div id="songs-list-container" class="songs-grid"></div>
+          <div class="section-title">
+            <span>🎵 All Songs</span>
+          </div>
+          <div id="songs-list-container" class="songs-grid"></div>
         </div>
-    </div>
+      </div>
 
-    <!-- Mobile Player Bar -->
-    <div class="mobile-player" id="compact-player">
+      <!-- Mobile Player Bar -->
+      <div class="mobile-player" id="compact-player">
         <div class="progress-micro" id="progress-touch">
-            <div class="progress-fill-micro" id="progress-fill-micro"></div>
+          <div class="progress-fill-micro" id="progress-fill-micro"></div>
         </div>
-        <img src="placeholder.jpg" alt="Art" class="player-art" id="fs-open-trigger">
+        <img
+          src="placeholder.jpg"
+          alt="Art"
+          class="player-art"
+          id="fs-open-trigger"
+        />
         <div class="player-track-info" id="expand-trigger">
-            <div class="player-track-title" id="now-title">Search for music</div>
-            <div class="player-track-artist" id="now-artist">Artist</div>
+          <div class="player-track-title" id="now-title">Search for music</div>
+          <div class="player-track-artist" id="now-artist">Artist</div>
         </div>
         <div class="player-actions">
-            <button class="player-action-btn" id="vol-mobile"><i class="fas fa-volume-up"></i></button>
-            <button class="player-action-btn" id="fav-toggle-mobile"><i class="far fa-heart"></i></button>
-            <button class="player-action-btn" id="prev-mobile"><i class="fas fa-step-backward"></i></button>
-            <button class="play-toggle" id="play-pause-mobile"><i class="fas fa-play"></i></button>
-            <button class="player-action-btn" id="next-mobile"><i class="fas fa-step-forward"></i></button>
+          <button class="player-action-btn" id="vol-mobile">
+            <i class="fas fa-volume-up"></i>
+          </button>
+          <button class="player-action-btn" id="fav-toggle-mobile">
+            <i class="far fa-heart"></i>
+          </button>
+          <button class="player-action-btn" id="prev-mobile">
+            <i class="fas fa-step-backward"></i>
+          </button>
+          <button class="play-toggle" id="play-pause-mobile">
+            <i class="fas fa-play"></i>
+          </button>
+          <button class="player-action-btn" id="next-mobile">
+            <i class="fas fa-step-forward"></i>
+          </button>
         </div>
-    </div>
+      </div>
 
-    <!-- Fullscreen Player -->
-    <div class="fullscreen-player" id="fullscreen-player">
+      <!-- Fullscreen Player -->
+      <div class="fullscreen-player" id="fullscreen-player">
         <div class="fs-header">
-            <button id="close-fs"><i class="fas fa-chevron-down"></i></button>
-            <span>NOW PLAYING</span>
-            <button><i class="fas fa-ellipsis-v"></i></button>
+          <button id="close-fs"><i class="fas fa-chevron-down"></i></button>
+          <span>NOW PLAYING</span>
+          <button><i class="fas fa-ellipsis-v"></i></button>
         </div>
-        
+
         <div class="fs-art-container">
-            <img src="placeholder.jpg" id="fs-art" alt="Art">
+          <img src="placeholder.jpg" id="fs-art" alt="Art" />
         </div>
-        
+
         <div class="fs-info">
-            <div class="fs-title-row">
-                <div>
-                    <h2 id="fs-title">Song Title</h2>
-                    <p id="fs-album">Album Name</p>
-                </div>
-                <button id="fs-fav"><i class="far fa-heart"></i></button>
+          <div class="fs-title-row">
+            <div>
+              <h2 id="fs-title">Song Title</h2>
+              <p id="fs-album">Album Name</p>
             </div>
-            
-            <div class="fs-progress-container">
-                <div class="fs-progress-bar" id="fs-progress-touch">
-                    <div class="fs-progress-fill" id="fs-progress-fill"></div>
-                </div>
-                <div class="fs-time">
-                    <span id="fs-current">0:00</span>
-                    <span id="fs-duration">0:00</span>
-                </div>
-            </div>
-            
-            <div class="fs-controls">
-                <button id="fs-shuffle"><i class="fas fa-random"></i></button>
-                <button id="fs-prev"><i class="fas fa-step-backward"></i></button>
-                <button id="fs-play" class="fs-play-btn"><i class="fas fa-play"></i></button>
-                <button id="fs-next"><i class="fas fa-step-forward"></i></button>
-                <button id="fs-repeat"><i class="fas fa-redo"></i></button>
-            </div>
+            <button id="fs-fav"><i class="far fa-heart"></i></button>
+          </div>
 
-            <div class="fs-eq-wrapper">
-                <canvas id="fs-real-eq" width="400" height="50"></canvas>
+          <div class="fs-progress-container">
+            <div class="fs-progress-bar" id="fs-progress-touch">
+              <div class="fs-progress-fill" id="fs-progress-fill"></div>
             </div>
-            
-            <div class="fs-footer-actions">
-                <button id="fs-fx"><i class="fas fa-sliders-h"></i> FX</button>
-                <button id="fs-lyrics"><i class="fas fa-quote-right"></i> Lyrics</button>
-                <button id="fs-ai-describe"><i class="fas fa-robot"></i> AI Analysis</button>
+            <div class="fs-time">
+              <span id="fs-current">0:00</span>
+              <span id="fs-duration">0:00</span>
             </div>
+          </div>
+
+          <div class="fs-controls">
+            <button id="fs-shuffle"><i class="fas fa-random"></i></button>
+            <button id="fs-prev"><i class="fas fa-step-backward"></i></button>
+            <button id="fs-play" class="fs-play-btn">
+              <i class="fas fa-play"></i>
+            </button>
+            <button id="fs-next"><i class="fas fa-step-forward"></i></button>
+            <button id="fs-repeat"><i class="fas fa-redo"></i></button>
+          </div>
+
+          <div class="fs-eq-wrapper">
+            <canvas id="fs-real-eq" width="400" height="50"></canvas>
+          </div>
+
+          <div class="fs-footer-actions">
+            <button id="fs-fx"><i class="fas fa-sliders-h"></i> FX</button>
+            <button id="fs-lyrics">
+              <i class="fas fa-quote-right"></i> Lyrics
+            </button>
+            <button id="fs-ai-describe">
+              <i class="fas fa-robot"></i> AI Analysis
+            </button>
+          </div>
         </div>
-    </div>
+      </div>
 
-    <!-- About Page -->
-    <div class="about-page" id="about-page">
+      <!-- About Page -->
+      <div class="about-page" id="about-page">
         <div class="about-header">
-            <h1>SoundStat AI</h1>
-            <p>Advanced Music Intelligence 1.0.0</p>
+          <h1>SoundStat AI</h1>
+          <p>Advanced Music Intelligence 1.0.0</p>
         </div>
-        
-        <div id="artist-bio-section" style="display:none;">
-            <div class="artist-bio-header">
-                <img id="artist-image" src="" alt="Artist" style="width:100px; height:100px; border-radius:50%; object-fit:cover; margin-bottom:10px;">
-                <h2 id="artist-name" style="margin:10px 0;"></h2>
+
+        <div id="artist-bio-section" style="display: none">
+          <div class="artist-bio-header">
+            <img
+              id="artist-image"
+              src=""
+              alt="Artist"
+              style="
+                width: 100px;
+                height: 100px;
+                border-radius: 50%;
+                object-fit: cover;
+                margin-bottom: 10px;
+              "
+            />
+            <h2 id="artist-name" style="margin: 10px 0"></h2>
+          </div>
+          <div class="bio-section">
+            <h2>Artist Biography</h2>
+            <div id="artist-bio-content" style="color: #ccc; line-height: 1.6">
+              <i class="fas fa-circle-notch fa-spin"></i> Loading artist info...
             </div>
-            <div class="bio-section">
-                <h2>Artist Biography</h2>
-                <div id="artist-bio-content" style="color:#ccc; line-height:1.6;">
-                    <i class="fas fa-circle-notch fa-spin"></i> Loading artist info...
-                </div>
+          </div>
+          <div class="bio-section">
+            <h2>Current Track</h2>
+            <div
+              id="current-track-info"
+              style="
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                padding: 12px;
+                background: rgba(255, 255, 255, 0.05);
+                border-radius: 8px;
+              "
+            >
+              <img
+                id="current-track-img"
+                src=""
+                alt=""
+                style="
+                  width: 60px;
+                  height: 60px;
+                  border-radius: 6px;
+                  object-fit: cover;
+                "
+              />
+              <div>
+                <div id="current-track-name" style="font-weight: 600"></div>
+                <div
+                  id="current-track-album"
+                  style="font-size: 12px; color: #999"
+                ></div>
+              </div>
             </div>
-            <div class="bio-section">
-                <h2>Current Track</h2>
-                <div id="current-track-info" style="display:flex; align-items:center; gap:12px; padding:12px; background:rgba(255,255,255,0.05); border-radius:8px;">
-                    <img id="current-track-img" src="" alt="" style="width:60px; height:60px; border-radius:6px; object-fit:cover;">
-                    <div>
-                        <div id="current-track-name" style="font-weight:600;"></div>
-                        <div id="current-track-album" style="font-size:12px; color:#999;"></div>
-                    </div>
-                </div>
-            </div>
+          </div>
         </div>
 
         <div id="default-about-section">
-            <div class="bio-section">
-                <h2>The Science of Sound</h2>
-                <p>SoundStat provides deep-level audio analysis for millions of tracks. Using advanced signal processing and machine learning, we extract characteristics like Energy, Valence, Danceability, and Tempo to help you understand the DNA of music.</p>
-            </div>
-            
-            <div class="bio-section">
-                <h2>AI Mood Playlist Generator</h2>
-                <p>Let AI create the perfect playlist for your activity</p>
-                <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 12px;">
-                    <button class="mood-playlist-btn" data-mood="studying" style="padding: 10px 20px; border-radius: 20px; border: none; background: var(--sp-green); color: white; cursor: pointer; font-weight: 600;">
-                        <i class="fas fa-book"></i> Studying
-                    </button>
-                    <button class="mood-playlist-btn" data-mood="workout" style="padding: 10px 20px; border-radius: 20px; border: none; background: #ff416c; color: white; cursor: pointer; font-weight: 600;">
-                        <i class="fas fa-dumbbell"></i> Workout
-                    </button>
-                    <button class="mood-playlist-btn" data-mood="party" style="padding: 10px 20px; border-radius: 20px; border: none; background: #9d50bb; color: white; cursor: pointer; font-weight: 600;">
-                        <i class="fas fa-glass-cheers"></i> Party
-                    </button>
-                    <button class="mood-playlist-btn" data-mood="relaxation" style="padding: 10px 20px; border-radius: 20px; border: none; background: #00d2ff; color: white; cursor: pointer; font-weight: 600;">
-                        <i class="fas fa-spa"></i> Relaxation
-                    </button>
-                </div>
-                <div id="mood-playlist-results" style="margin-top: 16px;"></div>
-            </div>
-            
-            <div class="bio-section">
-                <h2>Song Similarity</h2>
-                <p>Compare two songs to see how similar they are</p>
-                <button id="open-similarity-modal" style="padding: 10px 20px; border-radius: 8px; border: none; background: rgba(255,255,255,0.1); color: white; cursor: pointer; margin-top: 12px;">
-                    <i class="fas fa-balance-scale"></i> Compare Songs
-                </button>
-            </div>
-            
-            <div class="gallery-section">
-                <h2>Parameters</h2>
-                <div class="gallery-grid">
-                    <div class="gallery-item" style="background:var(--sp-green); display:flex; flex-direction:column; align-items:center; justify-content:center; border-radius:12px; font-size: 10px; color: black;"><i class="fas fa-bolt fa-2x"></i><br>ENERGY</div>
-                    <div class="gallery-item" style="background:var(--theme-color); display:flex; flex-direction:column; align-items:center; justify-content:center; border-radius:12px; font-size: 10px;"><i class="fas fa-tachometer-alt fa-2x"></i><br>TEMPO</div>
-                    <div class="gallery-item" style="background:var(--sp-grey); display:flex; flex-direction:column; align-items:center; justify-content:center; border-radius:12px; font-size: 10px;"><i class="fas fa-wave-square fa-2x"></i><br>VALENCE</div>
-                    <div class="gallery-item" style="background:#444; display:flex; flex-direction:column; align-items:center; justify-content:center; border-radius:12px; font-size: 10px;"><i class="fas fa-keyboard fa-2x"></i><br>KEY</div>
-                </div>
-            </div>
-        </div>
-        <div style="height:120px;"></div>
-    </div>
+          <div class="bio-section">
+            <h2>The Science of Sound</h2>
+            <p>
+              SoundStat provides deep-level audio analysis for millions of
+              tracks. Using advanced signal processing and machine learning, we
+              extract characteristics like Energy, Valence, Danceability, and
+              Tempo to help you understand the DNA of music.
+            </p>
+          </div>
 
-    <!-- Creative AI Sound Prompts Section -->
-    <div class="ai-prompts-section" id="ai-prompts-section" style="padding: 16px; display: none;">
+          <div class="bio-section">
+            <h2>AI Mood Playlist Generator</h2>
+            <p>Let AI create the perfect playlist for your activity</p>
+            <div
+              style="
+                display: flex;
+                gap: 10px;
+                flex-wrap: wrap;
+                margin-top: 12px;
+              "
+            >
+              <button
+                class="mood-playlist-btn"
+                data-mood="studying"
+                style="
+                  padding: 10px 20px;
+                  border-radius: 20px;
+                  border: none;
+                  background: var(--sp-green);
+                  color: white;
+                  cursor: pointer;
+                  font-weight: 600;
+                "
+              >
+                <i class="fas fa-book"></i> Studying
+              </button>
+              <button
+                class="mood-playlist-btn"
+                data-mood="workout"
+                style="
+                  padding: 10px 20px;
+                  border-radius: 20px;
+                  border: none;
+                  background: #ff416c;
+                  color: white;
+                  cursor: pointer;
+                  font-weight: 600;
+                "
+              >
+                <i class="fas fa-dumbbell"></i> Workout
+              </button>
+              <button
+                class="mood-playlist-btn"
+                data-mood="party"
+                style="
+                  padding: 10px 20px;
+                  border-radius: 20px;
+                  border: none;
+                  background: #9d50bb;
+                  color: white;
+                  cursor: pointer;
+                  font-weight: 600;
+                "
+              >
+                <i class="fas fa-glass-cheers"></i> Party
+              </button>
+              <button
+                class="mood-playlist-btn"
+                data-mood="relaxation"
+                style="
+                  padding: 10px 20px;
+                  border-radius: 20px;
+                  border: none;
+                  background: #00d2ff;
+                  color: white;
+                  cursor: pointer;
+                  font-weight: 600;
+                "
+              >
+                <i class="fas fa-spa"></i> Relaxation
+              </button>
+            </div>
+            <div id="mood-playlist-results" style="margin-top: 16px"></div>
+          </div>
+
+          <div class="bio-section">
+            <h2>Song Similarity</h2>
+            <p>Compare two songs to see how similar they are</p>
+            <button
+              id="open-similarity-modal"
+              style="
+                padding: 10px 20px;
+                border-radius: 8px;
+                border: none;
+                background: rgba(255, 255, 255, 0.1);
+                color: white;
+                cursor: pointer;
+                margin-top: 12px;
+              "
+            >
+              <i class="fas fa-balance-scale"></i> Compare Songs
+            </button>
+          </div>
+        </div>
+        <div style="height: 120px"></div>
+      </div>
+
+      <!-- Creative AI Sound Prompts Section -->
+      <div
+        class="ai-prompts-section"
+        id="ai-prompts-section"
+        style="padding: 16px; display: none"
+      >
         <h2>Creative AI Sound Prompts</h2>
-        <p>Describe the kind of sound or music you're imagining, and our AI will suggest creative ideas!</p>
-        <textarea id="ai-prompt-input" placeholder="e.g., 'a serene forest soundscape for meditation' or 'an energetic synth-pop track for a workout playlist'" rows="4" style="width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); background-color: rgba(0,0,0,0.3); color: white;"></textarea>
-        <button id="generate-ai-prompt" style="background-color: var(--sp-green); color: white; padding: 10px 15px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold;">Generate Prompt</button>
-        <div id="ai-prompt-output" style="margin-top: 20px; padding: 15px; background-color: rgba(255,255,255,0.05); border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); color: #ccc; min-height: 50px; display: none;">
-            Generating suggestions...
+        <p>
+          Describe the kind of sound or music you're imagining, and our AI will
+          suggest creative ideas!
+        </p>
+        <textarea
+          id="ai-prompt-input"
+          placeholder="e.g., 'a serene forest soundscape for meditation' or 'an energetic synth-pop track for a workout playlist'"
+          rows="4"
+          style="
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background-color: rgba(0, 0, 0, 0.3);
+            color: white;
+          "
+        ></textarea>
+        <button
+          id="generate-ai-prompt"
+          style="
+            background-color: var(--sp-green);
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+          "
+        >
+          Generate Prompt
+        </button>
+        <div
+          id="ai-prompt-output"
+          style="
+            margin-top: 20px;
+            padding: 15px;
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #ccc;
+            min-height: 50px;
+            display: none;
+          "
+        >
+          Generating suggestions...
         </div>
-    </div>
+      </div>
 
-    <!-- Bottom Navigation -->
-    <div class="bottom-nav">
+      <!-- Bottom Navigation -->
+      <div class="bottom-nav">
         <a href="#" class="nav-link active" id="nav-home">
-            <i class="fas fa-home"></i>
-            <span>Home</span>
+          <i class="fas fa-home"></i>
+          <span>Home</span>
         </a>
         <a href="#" class="nav-link" id="nav-about">
-            <i class="fas fa-info-circle"></i>
-            <span>About</span>
+          <i class="fas fa-info-circle"></i>
+          <span>About</span>
         </a>
         <a href="#" class="nav-link" id="nav-favs">
-            <i class="fas fa-heart"></i>
-            <span>Liked</span>
+          <i class="fas fa-heart"></i>
+          <span>Liked</span>
         </a>
-    </div>
+      </div>
 
-    <!-- Lyrics Modal -->
-    <div class="overlay" id="lyrics-overlay" style="z-index: 8000;"></div>
-    <div class="lyrics-modal" id="lyrics-modal">
+      <!-- Lyrics Modal -->
+      <div class="overlay" id="lyrics-overlay" style="z-index: 8000"></div>
+      <div class="lyrics-modal" id="lyrics-modal">
         <div class="lyrics-header">
-            <h2 id="lyrics-title">Lyrics</h2>
-            <button id="lyrics-analyze" style="background:var(--sp-green); color:white; border:none; padding:8px 12px; border-radius:6px; cursor:pointer; font-size:12px; margin-right:8px;">
-                <i class="fas fa-robot"></i> AI Analyze
-            </button>
-            <button id="close-lyrics"><i class="fas fa-times"></i></button>
+          <h2 id="lyrics-title">Lyrics</h2>
+          <button
+            id="lyrics-analyze"
+            style="
+              background: var(--sp-green);
+              color: white;
+              border: none;
+              padding: 8px 12px;
+              border-radius: 6px;
+              cursor: pointer;
+              font-size: 12px;
+              margin-right: 8px;
+            "
+          >
+            <i class="fas fa-robot"></i> AI Analyze
+          </button>
+          <button id="close-lyrics"><i class="fas fa-times"></i></button>
         </div>
         <div class="lyrics-body" id="lyrics-content">
-            <p>Fetching lyrics...</p>
+          <p>Fetching lyrics...</p>
         </div>
-        <div id="lyrics-analysis" style="padding: 15px; border-top: 1px solid rgba(255,255,255,0.1); display: none;">
-            <h3><i class="fas fa-brain"></i> AI Analysis</h3>
-            <div id="lyrics-analysis-content" style="color: #ccc; line-height: 1.6;"></div>
+        <div
+          id="lyrics-analysis"
+          style="
+            padding: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: none;
+          "
+        >
+          <h3><i class="fas fa-brain"></i> AI Analysis</h3>
+          <div
+            id="lyrics-analysis-content"
+            style="color: #ccc; line-height: 1.6"
+          ></div>
         </div>
-    </div>
+      </div>
 
-    <!-- AI Description Modal -->
-    <div class="overlay" id="ai-desc-overlay" style="z-index: 9000;"></div>
-    <div class="lyrics-modal" id="ai-desc-modal" style="z-index: 9001;">
+      <!-- AI Description Modal -->
+      <div class="overlay" id="ai-desc-overlay" style="z-index: 9000"></div>
+      <div class="lyrics-modal" id="ai-desc-modal" style="z-index: 9001">
         <div class="lyrics-header">
-            <h2><i class="fas fa-robot"></i> AI Sound Analysis</h2>
-            <button id="close-ai-desc"><i class="fas fa-times"></i></button>
+          <h2><i class="fas fa-robot"></i> AI Sound Analysis</h2>
+          <button id="close-ai-desc"><i class="fas fa-times"></i></button>
         </div>
         <div class="lyrics-body" id="ai-desc-content">
-            <p>Select a track and click "AI Analysis" to get AI-powered description and tags.</p>
+          <p>
+            Select a track and click "AI Analysis" to get AI-powered description
+            and tags.
+          </p>
         </div>
-    </div>
+      </div>
 
-    <!-- Song Similarity Modal -->
-    <div class="overlay" id="similarity-overlay" style="z-index: 9500;"></div>
-    <div class="lyrics-modal" id="similarity-modal" style="z-index: 9501;">
+      <!-- Song Similarity Modal -->
+      <div class="overlay" id="similarity-overlay" style="z-index: 9500"></div>
+      <div class="lyrics-modal" id="similarity-modal" style="z-index: 9501">
         <div class="lyrics-header">
-            <h2><i class="fas fa-balance-scale"></i> Song Similarity</h2>
-            <button id="close-similarity"><i class="fas fa-times"></i></button>
+          <h2><i class="fas fa-balance-scale"></i> Song Similarity</h2>
+          <button id="close-similarity"><i class="fas fa-times"></i></button>
         </div>
-        <div class="lyrics-body" style="padding: 20px;">
-            <div style="margin-bottom: 16px;">
-                <label style="display: block; margin-bottom: 8px; font-size: 14px;">Song 1:</label>
-                <input type="text" id="similarity-song1" placeholder="Enter first song name..." style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.3); color: white;">
-            </div>
-            <div style="margin-bottom: 16px;">
-                <label style="display: block; margin-bottom: 8px; font-size: 14px;">Song 2:</label>
-                <input type="text" id="similarity-song2" placeholder="Enter second song name..." style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.3); color: white;">
-            </div>
-            <button id="calculate-similarity" style="width: 100%; padding: 12px; border-radius: 8px; border: none; background: var(--sp-green); color: white; font-weight: 600; cursor: pointer;">
-                Calculate Similarity
-            </button>
-            <div id="similarity-result" style="margin-top: 20px; text-align: center; display: none;">
-                <div id="similarity-score" style="font-size: 48px; font-weight: 800; color: var(--sp-green);"></div>
-                <div id="similarity-explanation" style="color: #ccc; margin-top: 12px; line-height: 1.6;"></div>
-            </div>
+        <div class="lyrics-body" style="padding: 20px">
+          <div style="margin-bottom: 16px">
+            <label style="display: block; margin-bottom: 8px; font-size: 14px"
+              >Song 1:</label
+            >
+            <input
+              type="text"
+              id="similarity-song1"
+              placeholder="Enter first song name..."
+              style="
+                width: 100%;
+                padding: 10px;
+                border-radius: 8px;
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                background: rgba(0, 0, 0, 0.3);
+                color: white;
+              "
+            />
+          </div>
+          <div style="margin-bottom: 16px">
+            <label style="display: block; margin-bottom: 8px; font-size: 14px"
+              >Song 2:</label
+            >
+            <input
+              type="text"
+              id="similarity-song2"
+              placeholder="Enter second song name..."
+              style="
+                width: 100%;
+                padding: 10px;
+                border-radius: 8px;
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                background: rgba(0, 0, 0, 0.3);
+                color: white;
+              "
+            />
+          </div>
+          <button
+            id="calculate-similarity"
+            style="
+              width: 100%;
+              padding: 12px;
+              border-radius: 8px;
+              border: none;
+              background: var(--sp-green);
+              color: white;
+              font-weight: 600;
+              cursor: pointer;
+            "
+          >
+            Calculate Similarity
+          </button>
+          <div
+            id="similarity-result"
+            style="margin-top: 20px; text-align: center; display: none"
+          >
+            <div
+              id="similarity-score"
+              style="font-size: 48px; font-weight: 800; color: var(--sp-green)"
+            ></div>
+            <div
+              id="similarity-explanation"
+              style="color: #ccc; margin-top: 12px; line-height: 1.6"
+            ></div>
+          </div>
         </div>
-    </div>
+      </div>
 
-    <!-- FX Modal -->
-    <div class="overlay" id="fx-overlay"></div>
-    <div class="fx-modal" id="fx-modal">
-        <div style="padding: 0 16px 16px 16px; border-bottom: 1px solid rgba(255,255,255,0.05); margin-bottom: 10px;">
-            <div style="display:flex; align-items:center; gap:12px; margin-bottom:8px;">
-                <i class="fas fa-volume-up" style="color:var(--sp-green)"></i>
-                <span style="font-weight:700; font-size:14px;">Volume</span>
-            </div>
-            <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0.85" style="width:100%; accent-color:var(--sp-green); height:4px;">
+      <!-- FX Modal -->
+      <div class="overlay" id="fx-overlay"></div>
+      <div class="fx-modal" id="fx-modal">
+        <div
+          style="
+            padding: 0 16px 16px 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            margin-bottom: 10px;
+          "
+        >
+          <div
+            style="
+              display: flex;
+              align-items: center;
+              gap: 12px;
+              margin-bottom: 8px;
+            "
+          >
+            <i class="fas fa-volume-up" style="color: var(--sp-green)"></i>
+            <span style="font-weight: 700; font-size: 14px">Volume</span>
+          </div>
+          <input
+            type="range"
+            id="volume-slider"
+            min="0"
+            max="1"
+            step="0.01"
+            value="0.85"
+            style="width: 100%; accent-color: var(--sp-green); height: 4px"
+          />
         </div>
         <div class="fx-option-mobile active" data-fx="none">🎧 Standard</div>
         <div class="fx-option-mobile" data-fx="bass">🎸 Deep Bass Boost</div>
         <div class="fx-option-mobile" data-fx="rock">🔥 Rock Mode</div>
         <div class="fx-option-mobile" data-fx="cinema">🎬 Cinema Reverb</div>
+      </div>
     </div>
-</div>
 
-<div id="toast-container" class="toast-container"></div>
-<script src="script.js"></script>
-</body>
+    <div id="toast-container" class="toast-container"></div>
+    <script src="script.js"></script>
+  </body>
 </html>
