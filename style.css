@@ -100,41 +100,44 @@ body {
 .search-wrapper {
     background: rgba(255, 255, 255, 0.1);
     border-radius: 20px;
-    padding: 6px 12px;
+    padding: 6px 10px;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
     flex: 1;
     margin: 0 12px;
     overflow: visible;
 }
 
-#song-search {
-    background: none;
-    border: none;
-    color: white;
-    font-size: 14px;
-    flex: 1;
-    min-width: 0;
-    outline: none;
+.search-wrapper i.fa-search {
+    flex-shrink: 0;
+    color: var(--text-dim);
 }
 
+/* Voice Search Base Styles */
 #voice-search-btn {
-    background: none;
-    border: none;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     color: #b3b3b3;
-    padding: 4px 8px;
+    width: 36px;
+    height: 36px;
     cursor: pointer;
     font-size: 16px;
     transition: all 0.3s ease;
-    border-radius: 4px;
+    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-shrink: 0;
+}
+
+#voice-search-btn i {
+    color: inherit;
 }
 
 #voice-search-btn:hover {
     color: white;
+    background: rgba(255, 255, 255, 0.1);
 }
 
 #voice-search-btn:disabled {
@@ -144,6 +147,7 @@ body {
 
 #voice-search-btn.listening {
     color: var(--sp-green) !important;
+    border-color: var(--sp-green);
     animation: pulse 1.5s infinite;
 }
 
@@ -1236,6 +1240,38 @@ body {
     
     .search-wrapper {
         flex: 1;
+        margin: 0 8px;
+        padding: 4px 10px;
+        background: rgba(255, 255, 255, 0.08);
+    }
+
+    .logo-area span {
+        display: none;
+    }
+
+    .top-bar {
+        padding: 8px 12px;
+        gap: 4px;
+    }
+    
+    #song-search {
+        font-size: 13px;
+    }
+    
+    #voice-search-btn {
+        width: 32px;
+        height: 32px;
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 380px) {
+    .top-bar {
+        padding: 6px 8px;
+    }
+    .search-wrapper {
+        margin: 0 4px;
+        gap: 4px;
     }
 }
 
@@ -1385,69 +1421,4 @@ body {
 
 .toast-close-btn:hover {
     color: white;
-}
-
-/* Voice Search */
-#voice-search-btn {
-    background: none;
-    border: none;
-    color: #b3b3b3;
-    padding: 4px 8px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: all 0.3s ease;
-    border-radius: 4px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-#voice-search-btn i {
-    color: inherit;
-}
-
-#voice-search-btn:hover {
-    color: white;
-}
-
-#voice-search-btn:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-}
-
-#voice-search-btn.listening {
-    color: var(--sp-green) !important;
-    animation: pulse 1.5s infinite;
-}
-
-@keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.5; }
-}
-
-#voice-search-btn i {
-    color: inherit;
-}
-
-#voice-search-btn:hover {
-    color: white;
-}
-
-#voice-search-btn.listening {
-    color: var(--sp-green) !important;
-    animation: pulse 1.5s infinite;
-}
-
-#voice-search-btn:hover {
-    color: white;
-}
-
-#voice-search-btn.listening {
-    color: var(--sp-green) !important;
-    animation: pulse 1.5s infinite;
-}
-
-@keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.5; }
 }
